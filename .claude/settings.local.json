@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/hikvision-bot/**)",
+      "Read(//c/hikvision-kaisen/**)",
+      "Read(//c/hikvision-other/**)"
+    ],
+    "additionalDirectories": [
+      "c:\\hikvision-bot",
+      "c:\\hikvision-other"
+    ]
+  }
+}

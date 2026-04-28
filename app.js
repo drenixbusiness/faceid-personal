@@ -196,7 +196,18 @@ async function startTelegramPolling() {
 // ==================================================
 
 const app = express();
+app.use(express.json());
+
 app.get('/', (req, res) => res.send('Personal attendance bot is running'));
+
+app.post('/notify', async (req, res) => {
+    const { employeeId, message } = req.body || {};
+    if (!employeeId || !message) return res.status(400).send('Missing employeeId or message');
+    const row = db.prepare('SELECT telegram_chat_id FROM registered_users WHERE employee_id = ?').get(String(employeeId));
+    if (!row) return res.status(404).send('Not registered');
+    await sendTelegramToChat(row.telegram_chat_id, message);
+    res.send('OK');
+});
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`✅ Personal bot running on http://0.0.0.0:${PORT}`);
