@@ -1,0 +1,18 @@
+{
+  "name": "hikvision-personal",
+  "version": "1.0.0",
+  "description": "Personal registration bot for attendance notifications",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js"
+  },
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "axios": "^1.14.0",
+    "better-sqlite3": "^12.8.0",
+    "dotenv": "^16.6.1",
+    "express": "^5.2.1"
+  }
+}
