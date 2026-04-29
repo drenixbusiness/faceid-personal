@@ -18,51 +18,51 @@ const SHIFT_RULES = {
 
 // ====== ALL EMPLOYEES ======
 const EMPLOYEE_SHIFT_MAP = {
-    '001':  { name: 'Suxrob',           shiftKey: '6-3' },
-    '18':   { name: 'Abdulaziz',         shiftKey: '6-3' },
-    '002':  { name: 'Asadbek Odilov',    shiftKey: '7-4' },
-    '003':  { name: 'Hasanboy',          shiftKey: '5-2' },
-    '004':  { name: 'Akbar Ramadan',     shiftKey: '5-2' },
-    '0006': { name: 'Farrux',            shiftKey: '5-2' },
-    '7':    { name: 'Fayzulloh Winston', shiftKey: '6-3' },
-    '8':    { name: 'Diyor Ethan',       shiftKey: '6-3' },
-    '9':    { name: 'Fazliddin Fred',    shiftKey: '6-3' },
-    '10':   { name: 'Asadbek Henry',     shiftKey: '5-2' },
-    '11':   { name: 'Amirshoh Alex',     shiftKey: '6-3' },
-    '12':   { name: 'Lazizbek Leo',      shiftKey: '5-2' },
-    '14':   { name: 'Azizbek Tony',      shiftKey: '5-2' },
-    '19':   { name: 'Jessica',           shiftKey: '6-3' },
-    '24':   { name: 'Sardor',            shiftKey: '5-2' },
-    '27':   { name: 'Nigora',            shiftKey: '7-4' },
-    '20':   { name: 'Humidullo',         shiftKey: '6-3' },
-    '31':   { name: 'Abdulloh',          shiftKey: '6-3' },
-    '28':   { name: 'Azimjon',           shiftKey: '5-2' },
-    '32':   { name: 'Zubayir',           shiftKey: '6-3' },
-    '036':  { name: 'Odina',             shiftKey: '6-3' }
+    '001': { name: 'Suxrob', shiftKey: '6-3' },
+    '18': { name: 'Abdulaziz', shiftKey: '6-3' },
+    '002': { name: 'Asadbek Odilov', shiftKey: '7-4' },
+    '003': { name: 'Hasanboy', shiftKey: '5-2' },
+    '004': { name: 'Akbar Ramadan', shiftKey: '5-2' },
+    '0006': { name: 'Farrux', shiftKey: '5-2' },
+    '7': { name: 'Fayzulloh Winston', shiftKey: '6-3' },
+    '8': { name: 'Diyor Ethan', shiftKey: '6-3' },
+    '9': { name: 'Fazliddin Fred', shiftKey: '6-3' },
+    '10': { name: 'Asadbek Henry', shiftKey: '5-2' },
+    '11': { name: 'Amirshoh Alex', shiftKey: '6-3' },
+    '12': { name: 'Lazizbek Leo', shiftKey: '5-2' },
+    '14': { name: 'Azizbek Tony', shiftKey: '5-2' },
+    '19': { name: 'Jessica', shiftKey: '6-3' },
+    '24': { name: 'Sardor', shiftKey: '5-2' },
+    '27': { name: 'Nigora', shiftKey: '7-4' },
+    '20': { name: 'Humidullo', shiftKey: '6-3' },
+    '31': { name: 'Abdulloh', shiftKey: '6-3' },
+    '28': { name: 'Azimjon', shiftKey: '5-2' },
+    '32': { name: 'Zubayir', shiftKey: '6-3' },
+    '036': { name: 'Odina', shiftKey: '6-3' }
 };
 
 const EMPLOYEE_SECRET_KEYS = {
-    '001':  '4yB!isuxrs',
-    '18':   'byyDd5g@aa',
-    '002':  '#sFtgaays3',
-    '003':  'gh#ma9mTsw',
-    '004':  'agA8kb&vyk',
+    '001': '4yB!isuxrs',
+    '18': 'byyDd5g@aa',
+    '002': '#sFtgaays3',
+    '003': 'gh#ma9mTsw',
+    '004': 'agA8kb&vyk',
     '0006': 'b9afrpiR&y',
-    '7':    'Wy!ahyf8nr',
-    '8':    'k!wir2Ydwy',
-    '9':    '2habzgfUc#',
-    '10':   '&y9Maefska',
-    '11':   'nq@ia4mMjr',
-    '12':   '!rlz2ajKkv',
-    '14':   'v4wbRi!raz',
-    '19':   'Fp@sjeh8cu',
-    '24':   'ms&yaMr2fr',
-    '27':   'g9n&rwiMyh',
-    '20':   'Cuywh5he@m',
-    '31':   '9smpds&Cba',
-    '28':   'r2ijdwaJz$',
-    '32':   'Jbdiuz9*ew',
-    '036':  'miadqo#D4a'
+    '7': 'Wy!ahyf8nr',
+    '8': 'k!wir2Ydwy',
+    '9': '2habzgfUc#',
+    '10': '&y9Maefska',
+    '11': 'nq@ia4mMjr',
+    '12': '!rlz2ajKkv',
+    '14': 'v4wbRi!raz',
+    '19': 'Fp@sjeh8cu',
+    '24': 'ms&yaMr2fr',
+    '27': 'g9n&rwiMyh',
+    '20': 'Cuywh5he@m',
+    '31': '9smpds&Cba',
+    '28': 'r2ijdwaJz$',
+    '32': 'Jbdiuz9*ew',
+    '036': 'miadqo#D4a'
 };
 // ==========================
 
@@ -87,6 +87,25 @@ async function sendTelegramToChat(chatId, message) {
         );
     } catch (err) {
         console.error(`Telegram error (chat ${chatId}):`, err.message);
+    }
+}
+
+async function setBotCommands() {
+    if (!TELEGRAM_BOT_TOKEN) return;
+    try {
+        await axios.post(
+            `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/setMyCommands`,
+            {
+                commands: [
+                    { command: 'start', description: 'Start / register with secret key' },
+                    { command: 'mystatus', description: 'Check my registration status' },
+                    { command: 'unregister', description: 'Unregister from notifications' },
+                ]
+            }
+        );
+        console.log('✅ Bot commands menu registered.');
+    } catch (err) {
+        console.error('Failed to set bot commands:', err.message);
     }
 }
 
@@ -214,6 +233,7 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log('Telegram polling will start shortly...\n');
 });
 
+setBotCommands();
 startTelegramPolling().catch((err) => {
     console.error('Telegram polling fatal error:', err.message);
 });
