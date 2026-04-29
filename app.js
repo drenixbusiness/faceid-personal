@@ -19,8 +19,8 @@ const SHIFT_RULES = {
 const MAIN_KEYBOARD = {
     reply_markup: {
         keyboard: [
-            [{ text: '/mystatus' }],
-            [{ text: '/unregister' }, { text: '/start' }]
+            [{ text: '📊 My Status' }],
+            [{ text: '❌ Unregister' }, { text: '🔄 Start' }]
         ],
         resize_keyboard: true,
         one_time_keyboard: false
@@ -131,16 +131,17 @@ async function handleTelegramUpdate(update) {
     const chatId = String(msg.chat.id);
     const text = msg.text.trim();
 
-    if (text === '/start' || text.startsWith('/start ')) {
+    if (text === '/start' || text.startsWith('/start ') || text === '🔄 Start') {
         pendingKeyEntry.add(chatId);
         await sendTelegramToChat(chatId,
             '👋 <b>Welcome to the Attendance Bot!</b>\n\n' +
-            'To receive your personal attendance notifications, please enter your <b>secret key</b>:'
+            'To receive your personal attendance notifications, please enter your <b>secret key</b>:',
+            MAIN_KEYBOARD
         );
         return;
     }
 
-    if (text === '/mystatus') {
+    if (text === '/mystatus' || text === '📊 My Status') {
         const reg = db.prepare('SELECT employee_id FROM registered_users WHERE telegram_chat_id = ?').get(chatId);
         if (!reg) {
             await sendTelegramToChat(chatId, '❌ You are not registered yet.\n\nUse /start to register with your secret key.', MAIN_KEYBOARD);
@@ -158,7 +159,7 @@ async function handleTelegramUpdate(update) {
         return;
     }
 
-    if (text === '/unregister') {
+    if (text === '/unregister' || text === '❌ Unregister') {
         const deleted = db.prepare('DELETE FROM registered_users WHERE telegram_chat_id = ?').run(chatId);
         if (deleted.changes > 0) {
             await sendTelegramToChat(chatId, '✅ You have been unregistered and will no longer receive personal notifications.', MAIN_KEYBOARD);
