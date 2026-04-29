@@ -16,6 +16,17 @@ const SHIFT_RULES = {
     '7-4': { label: 'Shift 7-4', workStart: '19:00', workEnd: '04:00' }
 };
 
+const MAIN_KEYBOARD = {
+    reply_markup: {
+        keyboard: [
+            [{ text: '/mystatus' }],
+            [{ text: '/unregister' }, { text: '/start' }]
+        ],
+        resize_keyboard: true,
+        one_time_keyboard: false
+    }
+};
+
 // ====== ALL EMPLOYEES ======
 const EMPLOYEE_SHIFT_MAP = {
     '001': { name: 'Suxrob', shiftKey: '6-3' },
@@ -78,12 +89,12 @@ db.exec(`
   )
 `);
 
-async function sendTelegramToChat(chatId, message) {
+async function sendTelegramToChat(chatId, message, extra = {}) {
     if (!chatId || !TELEGRAM_BOT_TOKEN) return;
     try {
         await axios.post(
             `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
-            { chat_id: chatId, text: message, parse_mode: 'HTML' }
+            { chat_id: chatId, text: message, parse_mode: 'HTML', ...extra }
         );
     } catch (err) {
         console.error(`Telegram error (chat ${chatId}):`, err.message);
@@ -132,7 +143,7 @@ async function handleTelegramUpdate(update) {
     if (text === '/mystatus') {
         const reg = db.prepare('SELECT employee_id FROM registered_users WHERE telegram_chat_id = ?').get(chatId);
         if (!reg) {
-            await sendTelegramToChat(chatId, '❌ You are not registered yet.\n\nUse /start to register with your secret key.');
+            await sendTelegramToChat(chatId, '❌ You are not registered yet.\n\nUse /start to register with your secret key.', MAIN_KEYBOARD);
             return;
         }
         const empInfo = EMPLOYEE_SHIFT_MAP[reg.employee_id];
@@ -141,7 +152,8 @@ async function handleTelegramUpdate(update) {
             `✅ <b>You are registered!</b>\n\n` +
             `👤 Name: <b>${empInfo?.name || reg.employee_id}</b>\n` +
             `🆔 Employee ID: ${reg.employee_id}\n` +
-            (shiftInfo ? `🏷 Shift: ${shiftInfo.label} (${shiftInfo.workStart}–${shiftInfo.workEnd})` : '')
+            (shiftInfo ? `🏷 Shift: ${shiftInfo.label} (${shiftInfo.workStart}–${shiftInfo.workEnd})` : ''),
+            MAIN_KEYBOARD
         );
         return;
     }
@@ -149,9 +161,9 @@ async function handleTelegramUpdate(update) {
     if (text === '/unregister') {
         const deleted = db.prepare('DELETE FROM registered_users WHERE telegram_chat_id = ?').run(chatId);
         if (deleted.changes > 0) {
-            await sendTelegramToChat(chatId, '✅ You have been unregistered and will no longer receive personal notifications.');
+            await sendTelegramToChat(chatId, '✅ You have been unregistered and will no longer receive personal notifications.', MAIN_KEYBOARD);
         } else {
-            await sendTelegramToChat(chatId, 'ℹ️ You were not registered.');
+            await sendTelegramToChat(chatId, 'ℹ️ You were not registered.', MAIN_KEYBOARD);
         }
         return;
     }
@@ -181,7 +193,8 @@ async function handleTelegramUpdate(update) {
             `👤 You are now linked as: <b>${empInfo?.name || matchedId}</b>\n` +
             (shiftInfo ? `🏷 Shift: ${shiftInfo.label} (${shiftInfo.workStart}–${shiftInfo.workEnd})\n` : '') +
             `\nYou will receive a personal message every time your attendance is recorded. ` +
-            `Use /mystatus to check your registration or /unregister to remove it.`
+            `Use /mystatus to check your registration or /unregister to remove it.`,
+            MAIN_KEYBOARD
         );
         console.log(`📲 Registered: ${empInfo?.name || matchedId} (${matchedId}) → chat ${chatId}`);
         return;
