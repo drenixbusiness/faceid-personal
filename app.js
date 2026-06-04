@@ -42,14 +42,16 @@ const EMPLOYEE_SHIFT_MAP = {
     '11': { name: 'Amirshoh Alex', shiftKey: '6-3' },
     '12': { name: 'Lazizbek Leo', shiftKey: '5-2' },
     '14': { name: 'Azizbek Tony', shiftKey: '5-2' },
-    '19': { name: 'Jessica', shiftKey: '6-3' },
+    '19': { name: 'Jessica', shiftKey: '5-2' },
     '24': { name: 'Sardor', shiftKey: '5-2' },
-    '27': { name: 'Nigora', shiftKey: '7-4' },
-    '20': { name: 'Humidullo', shiftKey: '6-3' },
-    '31': { name: 'Abdulloh', shiftKey: '6-3' },
-    '28': { name: 'Azimjon', shiftKey: '5-2' },
-    '32': { name: 'Zubayir', shiftKey: '6-3' },
-    '036': { name: 'Odina', shiftKey: '6-3' }
+    '20': { name: 'Hamidullo', shiftKey: '6-3' },
+    '036': { name: 'Odina', shiftKey: '6-3' },
+    '52': { name: 'Asilbek', shiftKey: '6-3' },
+    '49': { name: 'Bexruz', shiftKey: '6-3' },
+    '38': { name: 'Otabek', shiftKey: '6-3' },
+    '45': { name: 'Ahmad', shiftKey: '6-3' },
+    '47': { name: 'Dilshod', shiftKey: '6-3' },
+    '41': { name: 'Umrbek', shiftKey: '5-2' },
 };
 
 const EMPLOYEE_SECRET_KEYS = {
@@ -68,12 +70,14 @@ const EMPLOYEE_SECRET_KEYS = {
     '14': 'v4wbRi!raz',
     '19': 'Fp@sjeh8cu',
     '24': 'ms&yaMr2fr',
-    '27': 'g9n&rwiMyh',
     '20': 'Cuywh5he@m',
-    '31': '9smpds&Cba',
-    '28': 'r2ijdwaJz$',
-    '32': 'Jbdiuz9*ew',
-    '036': 'miadqo#D4a'
+    '036': 'miadqo#D4a',
+    '52': 'r2ijdwaJz$',
+    '49': 'k!wir2Ydwy',
+    '38': 'gh#ma9mTsw',
+    '45': 'agA8kb&vyk',
+    '47': 'b9afrpiR&y',
+    '41': 'Wy!ahyf8nr',
 };
 // ==========================
 
