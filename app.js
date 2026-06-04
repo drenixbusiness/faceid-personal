@@ -144,6 +144,29 @@ async function handleTelegramUpdate(update) {
             'To receive your personal attendance notifications, please enter your <b>secret key</b>:',
             MAIN_KEYBOARD
         );
+        await sendTelegramToChat(chatId,
+            '📋 <b>Attendance Policy — Please Read Carefully</b>\n\n' +
+
+            '🕐 <b>Punctuality</b>\n' +
+            'You have a <b>10-minute grace period</b> after your shift starts. Arriving within this window will not be considered late.\n' +
+            'Arriving <b>after 10 minutes</b> will be recorded as <b>Late</b>.\n' +
+            'Arriving <b>after 130 minutes</b> from your shift start time will be recorded as <b>Absent</b> and a deduction will be applied accordingly.\n\n' +
+
+            '📝 <b>Excused Absences & Special Circumstances</b>\n' +
+            'If you have a valid reason for being late or absent, you must contact your <b>Head of HR</b> directly. HR will then coordinate with the IT Department to update your attendance record as needed.\n\n' +
+
+            '🖐 <b>Check-In & Check-Out</b>\n' +
+            'At the <b>start</b> and <b>end</b> of every shift, you are required to use the <b>fingerprint scanner</b>.\n' +
+            'Once your fingerprint is recorded, a confirmation message will be sent to your <b>Telegram</b> automatically.\n\n' +
+
+            '☕ <b>Break Policy</b>\n' +
+            'During breaks, the fingerprint scanner is <b>not permitted</b> — please use <b>Face ID only</b>.\n' +
+            'Each break is limited to <b>30 minutes</b>. Exceeding this limit will result in a <b>formal warning</b>.\n\n' +
+
+            '⚠️ <b>Please ensure you follow these guidelines consistently to avoid any penalties.</b>\n' +
+            'If you have any questions, do not hesitate to reach out to your HR representative.\n\n' +
+            'Thank you for your cooperation. 🙏'
+        );
         return;
     }
 
