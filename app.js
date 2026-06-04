@@ -8,6 +8,7 @@ const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
 const PORT = Number(process.env.PORT || 8092);
 const DB_PATH = process.env.DB_PATH || './attendance.db';
 const BUSINESS_TIMEZONE = 'Asia/Tashkent';
+const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID || '8695373914';
 // ====================
 
 const SHIFT_RULES = {
@@ -195,6 +196,30 @@ async function handleTelegramUpdate(update) {
         } else {
             await sendTelegramToChat(chatId, 'ℹ️ You were not registered.', MAIN_KEYBOARD);
         }
+        return;
+    }
+
+    if (text.startsWith('/broadcast ') && chatId === ADMIN_CHAT_ID) {
+        const broadcastText = text.slice('/broadcast '.length).trim();
+        if (!broadcastText) {
+            await sendTelegramToChat(chatId, '⚠️ Usage: /broadcast <your message>');
+            return;
+        }
+        const allUsers = db.prepare('SELECT telegram_chat_id FROM registered_users').all();
+        if (allUsers.length === 0) {
+            await sendTelegramToChat(chatId, 'ℹ️ No registered users to broadcast to.');
+            return;
+        }
+        let sent = 0, failed = 0;
+        for (const row of allUsers) {
+            try {
+                await sendTelegramToChat(row.telegram_chat_id, `📢 <b>Announcement</b>\n\n${broadcastText}`);
+                sent++;
+            } catch {
+                failed++;
+            }
+        }
+        await sendTelegramToChat(chatId, `✅ Broadcast complete.\n📨 Sent: ${sent}${failed ? `\n❌ Failed: ${failed}` : ''}`);
         return;
     }
 
