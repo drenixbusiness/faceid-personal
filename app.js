@@ -199,10 +199,16 @@ async function handleTelegramUpdate(update) {
         return;
     }
 
-    if (text.startsWith('/broadcast ') && chatId === ADMIN_CHAT_ID) {
-        const broadcastText = text.slice('/broadcast '.length).trim();
+    if (text === '/myid') {
+        await sendTelegramToChat(chatId, `🆔 Your Telegram Chat ID: <code>${chatId}</code>`);
+        return;
+    }
+
+    if (text === '/broadcast' || text.startsWith('/broadcast ')) {
+        if (chatId !== ADMIN_CHAT_ID) return;
+        const broadcastText = text.startsWith('/broadcast ') ? text.slice('/broadcast '.length).trim() : '';
         if (!broadcastText) {
-            await sendTelegramToChat(chatId, '⚠️ Usage: /broadcast <your message>');
+            await sendTelegramToChat(chatId, '⚠️ Usage: /broadcast <your message>\n\nExample:\n/broadcast Reminder: shifts start on time tomorrow.');
             return;
         }
         const allUsers = db.prepare('SELECT telegram_chat_id FROM registered_users').all();
