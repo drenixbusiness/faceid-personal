@@ -52,6 +52,7 @@ const EMPLOYEE_SHIFT_MAP = {
     '45': { name: 'Ahmad', shiftKey: '6-3' },
     '47': { name: 'Dilshod', shiftKey: '6-3' },
     '41': { name: 'Umrbek', shiftKey: '5-2' },
+    '43': { name: 'Nazirbek', shiftKey: '6-3' },
 };
 
 const EMPLOYEE_SECRET_KEYS = {
@@ -78,6 +79,7 @@ const EMPLOYEE_SECRET_KEYS = {
     '45': 'Xc!u7nQdp@',
     '47': 'Zs3&hLytf8',
     '41': 'Pm@9vKrxe!', 
+    '43': 'Fp@sjeh5tu',
 };
 // ==========================
 
